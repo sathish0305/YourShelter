@@ -21,15 +21,37 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views',path.join(__dirname,'views'));
 
+app.use(express.urlencoded({extended: true}));
+
 app.get('/', (req,res) =>{
     res.render('home')
 })
 
-app.get('/makeShelter', async (req,res) =>{
-   const camp = new Shelter({title: 'My Backyard', description: "Cheap Shelter"});
-   await camp.save();
-   res.send(camp);
+app.get('/shelters', async(req,res) =>{
+   const shelters = await Shelter.find({});
+   res.render('shelters/index', {shelters});
 })
+
+app.get('/shelters/new', (req,res) => {
+    res.render('shelters/new');
+})
+
+app.post('/shelters',async(req,res) => {
+    const shelter = new Shelter(req.body.shelter);
+    await shelter.save();
+    res.redirect(`/shelters/${shelter._id}`);
+})
+
+app.get('/shelters/:id',async(req,res) => {
+    const shelter = await Shelter.findById(req.params.id)
+    res.render('shelters/show',{shelter});
+})
+
+app.get('/shelters/:id/edit'),async(req,res) => {
+    const shelter = await Shelter.findById(req.params.id)
+    res.render('shelters/edit',{shelter});
+}
+
 
 app.listen(3000, ()=>{
 console.log('Serving on Port 3000');
