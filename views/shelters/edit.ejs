@@ -8,16 +8,16 @@
 </head>
 <body>
     <h1>Edit Shelters</h1>
-    <form action="/shelters" method="POST">
+    <form action="/shelters/<%=shelter._id%>?_method=PUT" method="POST">
         <div>
             <label for="title">Title</label>
-            <input type="text" id="title" name="shelter[title]">
+            <input type="text" id="title" name="shelter[title]" value="<%=shelter.title%>">
         </div>
         <div>
             <label for="location">Location</label>
-            <input type="text" id="location" name="shelter[location]">
+            <input type="text" id="location" name="shelter[location]" value="<%=shelter.location%>">
         </div>
-        <button>Add Shelter</button>
+        <button>Update Shelter</button>
     </form>
     <a href="/shelters/<%= shelter._id %> ">Back to Shelter</a>
 </body>

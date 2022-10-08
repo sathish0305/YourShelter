@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 const Shelter = require('./models/shelter');
 
 
@@ -22,6 +23,7 @@ app.set('view engine', 'ejs');
 app.set('views',path.join(__dirname,'views'));
 
 app.use(express.urlencoded({extended: true}));
+app.use(methodOverride('_method'));
 
 app.get('/', (req,res) =>{
     res.render('home')
@@ -47,11 +49,16 @@ app.get('/shelters/:id',async(req,res) => {
     res.render('shelters/show',{shelter});
 })
 
-app.get('/shelters/:id/edit'),async(req,res) => {
+app.get('/shelters/:id/edit',async(req,res) => {
     const shelter = await Shelter.findById(req.params.id)
     res.render('shelters/edit',{shelter});
-}
+})
 
+app.put('/shelters/:id', async(req,res) => {
+    const { id } = req.params;
+    const shelter = await Shelter.findByIdAndUpdate(id,{ ...req.body.shelter });
+    res.redirect(`/shelters/${shelter._id}`);
+})
 
 app.listen(3000, ()=>{
 console.log('Serving on Port 3000');
