@@ -1,15 +1,29 @@
 <% layout('layouts/boilerplate') %>
-    <h1><%= shelter.title  %> </h1>
-    <h2><%= shelter.location  %> </h2>
-<p>
-    <a href="/shelters/<%=shelter._id%>/edit">Edit</a>
-</p>
 
-<p>
-    <form action="/shelters/<%=shelter._id %>?_method=DELETE" method="POST">
-        <button>Delete</button>
-    </form>
-</p>
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card mb-3">
+            <img src=" <%= shelter.image %> " class="card-img-top" alt="..."/>
+            <div class="card-body">
+              <h5 class="card-title"><%= shelter.title  %> </h5>
+              <p class="card-text"> <%= shelter.description %></p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item text-muted"><%= shelter.location  %></li>
+              <li class="list-group-item">$<%= shelter.price  %>/night</li>
+            </ul>
+            <div class="card-body">
+              <a class="card-link btn btn-info" href="/shelters/<%=shelter._id%>/edit">Edit</a>
+              <form class="d-inline" action="/shelters/<%=shelter._id %>?_method=DELETE" method="POST">
+                <button class="btn btn-danger">Delete</button>
+            </form>
+            </div>
+            <div class="card-footer text-muted">
+                2 days ago
+            </div>
+          </div>
+    </div>
+</div>
 
 <footer>
     <a href="/shelters">All Shelters</a>

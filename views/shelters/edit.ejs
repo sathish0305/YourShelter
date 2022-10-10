@@ -1,14 +1,41 @@
 <% layout('layouts/boilerplate') %>
-    <h1>Edit Shelters</h1>
-    <form action="/shelters/<%=shelter._id%>?_method=PUT" method="POST">
-        <div>
-            <label for="title">Title</label>
-            <input type="text" id="title" name="shelter[title]" value="<%=shelter.title%>">
+
+    <div class="row">
+        <h1 class="text-center">Edit Shelter</h1>
+        <div class="col-6 offset-3">
+            <form action="/shelters/<%=shelter._id%>?_method=PUT" method="POST">
+                <div class="mb-3">
+                    <label class="form-label" for="title">Title</label>
+                    <input class="form-control" type="text" id="title" name="shelter[title]"
+                    value="<%=shelter.title%>">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="location">Location</label>
+                    <input class="form-control" type="text" id="location" name="shelter[location]" value="<%=shelter.location%>">
+                </div>
+                <div class="mb-3"></div>
+                <label class="form-label" for="price">Price</label>
+                <div class="input-group mb-3">
+                   
+                    <span class="input-group-text" id="basic-addon1">$</span>
+                    <input type="text" id="price" class="form-control" name="shelter[price]" placeholder="0.00" aria-label="price" aria-describedby="price-label"
+                    value="<%=shelter.price%>">
+                  </div>
+                  
+                <div class="mb-3">
+                    <label class="form-label" for="image">Image Url</label>
+                    <input class="form-control" type="text" id="image" name="shelter[image]" value="<%=shelter.image%>">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea class="form-control" type="text" id="description" name="shelter[description]"><%=shelter.description%></textarea>
+                </div>
+    
+                <div class="mb-3"> 
+                    <button class="btn btn-info">Update</button>
+                </div>
+               
+            </form>
+            <a href="/shelters/<%= shelter._id %> ">Back to Shelter</a>
         </div>
-        <div>
-            <label for="location">Location</label>
-            <input type="text" id="location" name="shelter[location]" value="<%=shelter.location%>">
-        </div>
-        <button>Update Shelter</button>
-    </form>
-    <a href="/shelters/<%= shelter._id %> ">Back to Shelter</a>
+       </div>
