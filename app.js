@@ -60,6 +60,12 @@ app.put('/shelters/:id', async(req,res) => {
     res.redirect(`/shelters/${shelter._id}`);
 })
 
+app.delete('/shelters/:id', async(req,res) => {
+    const { id } = req.params;
+    await Shelter.findByIdAndDelete(id);
+    res.redirect('/shelters');
+})
+
 app.listen(3000, ()=>{
 console.log('Serving on Port 3000');
 })
