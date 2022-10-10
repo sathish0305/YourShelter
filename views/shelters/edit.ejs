@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Shelter</title>
-</head>
-<body>
+<% layout('layouts/boilerplate') %>
     <h1>Edit Shelters</h1>
     <form action="/shelters/<%=shelter._id%>?_method=PUT" method="POST">
         <div>
@@ -20,5 +12,3 @@
         <button>Update Shelter</button>
     </form>
     <a href="/shelters/<%= shelter._id %> ">Back to Shelter</a>
-</body>
-</html>
