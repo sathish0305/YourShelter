@@ -2,30 +2,61 @@
    <div class="row">
     <h1 class="text-center">New Shelter</h1>
     <div class="col-6 offset-3">
-        <form action="/shelters" method="POST">
+        <form action="/shelters" method="POST" novalidate class="validated-form">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
-                <input class="form-control" type="text" id="title" name="shelter[title]">
+                <input class="form-control" type="text" id="title" name="shelter[title]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please Enter a Title.
+                  </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">Location</label>
-                <input class="form-control" type="text" id="location" name="shelter[location]">
+                <input class="form-control" type="text" id="location" name="shelter[location]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please Enter Location.
+                  </div>
             </div>
             <div class="mb-3"></div>
             <label class="form-label" for="price">Price</label>
             <div class="input-group mb-3">
                
                 <span class="input-group-text" id="basic-addon1">$</span>
-                <input type="text" id="price" class="form-control" name="shelter[price]" placeholder="0.00" aria-label="price" aria-describedby="price-label">
+                <input type="text" id="price" class="form-control" name="shelter[price]" placeholder="0.00" aria-label="price" aria-describedby="price-label"
+                required>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please Give a Price.
+                  </div>
               </div>
               
             <div class="mb-3">
                 <label class="form-label" for="image">Image Url</label>
-                <input class="form-control" type="text" id="image" name="shelter[image]">
+                <input class="form-control" type="text" id="image" name="shelter[image]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please Add a Image.
+                  </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
-                <textarea class="form-control" type="text" id="description" name="shelter[description]"></textarea>
+                <textarea class="form-control" type="text" id="description" name="shelter[description]" required></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please Enter a Message in textarea.
+                  </div>
             </div>
 
             <div class="mb-3"> 
@@ -36,3 +67,5 @@
         <a href="/shelters">All Shelters</a>
     </div>
    </div>
+
+  

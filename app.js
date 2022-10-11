@@ -2,6 +2,9 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
+const { shelterSchema } = require('./schemas.js')
+const catchAsync = require('./utils/catchAsync');
+const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const Shelter = require('./models/shelter');
 
@@ -27,6 +30,17 @@ app.set('views',path.join(__dirname,'views'));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 
+const validateShelter = (req,res,next) => {
+      const {error} =  shelterSchema.validate(req.body);
+      if(error){
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    } else {
+        next();
+    }
+}
+
+
 app.get('/', (req,res) =>{
     res.render('home')
 })
@@ -40,32 +54,44 @@ app.get('/shelters/new', (req,res) => {
     res.render('shelters/new');
 })
 
-app.post('/shelters',async(req,res) => {
+app.post('/shelters',validateShelter, catchAsync(async (req, res, next) => {
+  
+  
     const shelter = new Shelter(req.body.shelter);
     await shelter.save();
     res.redirect(`/shelters/${shelter._id}`);
-})
+    }));
 
-app.get('/shelters/:id',async(req,res) => {
+app.get('/shelters/:id',catchAsync(async (req, res,) => {
     const shelter = await Shelter.findById(req.params.id)
     res.render('shelters/show',{shelter});
-})
+}));
 
-app.get('/shelters/:id/edit',async(req,res) => {
+app.get('/shelters/:id/edit',catchAsync(async (req, res) => {
     const shelter = await Shelter.findById(req.params.id)
     res.render('shelters/edit',{shelter});
-})
+}));
 
-app.put('/shelters/:id', async(req,res) => {
+app.put('/shelters/:id',validateShelter, catchAsync(async (req, res) => {
     const { id } = req.params;
     const shelter = await Shelter.findByIdAndUpdate(id,{ ...req.body.shelter });
     res.redirect(`/shelters/${shelter._id}`);
-})
+}));
 
-app.delete('/shelters/:id', async(req,res) => {
+app.delete('/shelters/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Shelter.findByIdAndDelete(id);
     res.redirect('/shelters');
+}));
+
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page Not Found', 404))
+});
+
+app.use((err, req, res, next) =>{
+    const { statusCode = 500 } = err;
+    if (!err.message) err.message = 'Oh No, Something Went Wrong!!!'
+    res.status(statusCode).render('error', { err });
 })
 
 app.listen(3000, ()=>{
