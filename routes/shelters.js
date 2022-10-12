@@ -28,28 +28,39 @@ router.get('/', async(req,res) =>{
  router.post('/',validateShelter, catchAsync(async (req, res, next) => {
      const shelter = new Shelter(req.body.shelter);
      await shelter.save();
+     req.flash('success', 'Successfully made a new shelter');
      res.redirect(`/shelters/${shelter._id}`);
      }));
  
  router.get('/:id',catchAsync(async (req, res,) => {
      const shelter = await Shelter.findById(req.params.id).populate('reviews');
+     if(!shelter){
+        req.flash('error','Cannot find the shelter');
+        return res.redirect('/shelters')
+     }
      res.render('shelters/show',{shelter});
  }));
  
  router.get('/:id/edit',catchAsync(async (req, res) => {
      const shelter = await Shelter.findById(req.params.id)
+     if(!shelter){
+        req.flash('error','Cannot find the shelter');
+        return res.redirect('/shelters')
+     }
      res.render('shelters/edit',{shelter});
  }));
  
  router.put('/:id',validateShelter, catchAsync(async (req, res) => {
      const { id } = req.params;
      const shelter = await Shelter.findByIdAndUpdate(id,{ ...req.body.shelter });
+     req.flash('success', 'Successfully updated shelter');
      res.redirect(`/shelters/${shelter._id}`);
  }));
  
  router.delete('/:id', catchAsync(async (req, res) => {
      const { id } = req.params;
      await Shelter.findByIdAndDelete(id);
+     req.flash('success','Successfully Deleted a Shelter!!');
      res.redirect('/shelters');
  }));
  

@@ -26,6 +26,7 @@ router.post('/',validateReview, catchAsync(async (req, res) => {
     shelter.reviews.push(review);
     await review.save();
     await shelter.save();
+    req.flash('success','Created a new review!!');
     res.redirect(`/shelters/${shelter._id}`);
  }));
  
@@ -33,6 +34,7 @@ router.post('/',validateReview, catchAsync(async (req, res) => {
      const { id, reviewId } = req.params;
      await Shelter.findByIdAndUpdate(id, {$pull: { reviews: reviewId}})
      await Review.findByIdAndDelete(reviewId);
+     req.flash('success','Successfully Deleted a review!!');
      res.redirect(`/shelters/${id}`);
  }))
 
