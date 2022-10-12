@@ -2,11 +2,12 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const { shelterSchema } = require('./schemas.js')
+const { shelterSchema, reviewSchema } = require('./schemas.js')
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const Shelter = require('./models/shelter');
+const Review = require('./models/review');
 
 
 mongoose.connect('mongodb://localhost:27017/shelter-camp',{
@@ -40,6 +41,17 @@ const validateShelter = (req,res,next) => {
     }
 }
 
+const validateReview = (req, res, next) => {
+    const { error} = reviewSchema.validate(req.body);
+    if(error){
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    } else {
+        next();
+    }
+    
+}
+
 
 app.get('/', (req,res) =>{
     res.render('home')
@@ -63,7 +75,7 @@ app.post('/shelters',validateShelter, catchAsync(async (req, res, next) => {
     }));
 
 app.get('/shelters/:id',catchAsync(async (req, res,) => {
-    const shelter = await Shelter.findById(req.params.id)
+    const shelter = await Shelter.findById(req.params.id).populate('reviews');
     res.render('shelters/show',{shelter});
 }));
 
@@ -83,6 +95,22 @@ app.delete('/shelters/:id', catchAsync(async (req, res) => {
     await Shelter.findByIdAndDelete(id);
     res.redirect('/shelters');
 }));
+
+app.post('/shelters/:id/reviews',validateReview, catchAsync(async (req, res) => {
+   const shelter = await Shelter.findById(req.params.id);
+   const review = new Review(req.body.review);
+   shelter.reviews.push(review);
+   await review.save();
+   await shelter.save();
+   res.redirect(`/shelters/${shelter._id}`);
+}));
+
+app.delete('/shelters/:id/reviews/:reviewId', catchAsync(async(req,res) => {
+    const { id, reviewId } = req.params;
+    await Shelter.findByIdAndUpdate(id, {$pull: { reviews: reviewId}})
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/shelters/${id}`);
+}))
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
