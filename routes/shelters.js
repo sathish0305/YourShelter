@@ -1,40 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const { shelterSchema } = require('../schemas.js')
+const shelters = require('../controllers/shelters');
 const catchAsync = require('../utils/catchAsync');
-const ExpressError = require('../utils/ExpressError');
+
 const Shelter = require('../models/shelter');
-const { isLoggedIn } = require('../middleware');
+const { isLoggedIn, validateShelter, isAuthor} = require('../middleware');
 
 
-const validateShelter = (req,res,next) => {
-    const {error} =  shelterSchema.validate(req.body);
-    if(error){
-      const msg = error.details.map(el => el.message).join(',')
-      throw new ExpressError(msg, 400)
-  } else {
-      next();
-  }
-}
 
-router.get('/', async(req,res) =>{
-    const shelters = await Shelter.find({});
-    res.render('shelters/index', {shelters});
- })
+
+router.get('/',catchAsync(shelters.index));
  
- router.get('/new', isLoggedIn , (req,res) => {
-     res.render('shelters/new');
- })
+ router.get('/new', isLoggedIn , shelters.renderNewForm);
  
- router.post('/',isLoggedIn, validateShelter, catchAsync(async (req, res, next) => {
-     const shelter = new Shelter(req.body.shelter);
-     await shelter.save();
-     req.flash('success', 'Successfully made a new shelter');
-     res.redirect(`/shelters/${shelter._id}`);
-     }));
+ router.post('/',isLoggedIn, validateShelter, catchAsync());
  
  router.get('/:id', catchAsync(async (req, res,) => {
-     const shelter = await Shelter.findById(req.params.id).populate('reviews');
+     const shelter = await Shelter.findById(req.params.id).populate({
+        path: 'reviews',
+        populate:{
+            path: 'author'
+        }
+    }).populate('author');
+
+     console.log(shelter);
      if(!shelter){
         req.flash('error','Cannot find the shelter');
         return res.redirect('/shelters')
@@ -42,23 +31,26 @@ router.get('/', async(req,res) =>{
      res.render('shelters/show',{shelter});
  }));
  
- router.get('/:id/edit',isLoggedIn,catchAsync(async (req, res) => {
-     const shelter = await Shelter.findById(req.params.id)
+ router.get('/:id/edit',isLoggedIn, isAuthor, catchAsync(async (req, res) => {
+    const { id } = req.params;
+     const shelter = await Shelter.findById(id)
      if(!shelter){
         req.flash('error','Cannot find the shelter');
         return res.redirect('/shelters')
      }
+      
      res.render('shelters/edit',{shelter});
  }));
  
- router.put('/:id',isLoggedIn,validateShelter, catchAsync(async (req, res) => {
+ router.put('/:id',isLoggedIn,isAuthor,validateShelter, catchAsync(async (req, res) => {
      const { id } = req.params;
-     const shelter = await Shelter.findByIdAndUpdate(id,{ ...req.body.shelter });
+    
+    const shelter = await Shelter.findByIdAndUpdate(id,{ ...req.body.shelter });
      req.flash('success', 'Successfully updated shelter');
      res.redirect(`/shelters/${shelter._id}`);
  }));
  
- router.delete('/:id', isLoggedIn,catchAsync(async (req, res) => {
+ router.delete('/:id', isLoggedIn,isAuthor,catchAsync(async (req, res) => {
      const { id } = req.params;
      await Shelter.findByIdAndDelete(id);
      req.flash('success','Successfully Deleted a Shelter!!');
