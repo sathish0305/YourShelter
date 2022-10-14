@@ -1,4 +1,5 @@
 const Shelter = require('../models/shelter');
+const { cloudinary } = require("../cloudinary");
 
 module.exports.index = async(req,res) =>{
     const shelters = await Shelter.find({});
@@ -11,8 +12,10 @@ module.exports.index = async(req,res) =>{
 
 module.exports.createShelter = async (req, res, next) => {
     const shelter = new Shelter(req.body.shelter);
+    shelter.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     shelter.author = req.user._id;
     await shelter.save();
+    console.log(shelter);
     req.flash('success', 'Successfully made a new shelter');
     res.redirect(`/shelters/${shelter._id}`);
     }
@@ -44,8 +47,18 @@ module.exports.renderEdit = async (req, res) => {
 
  module.exports.updateShelter = async (req, res) => {
     const { id } = req.params;
-   
-   const shelter = await Shelter.findByIdAndUpdate(id,{ ...req.body.shelter });
+    console.log(req.body);
+    const shelter = await Shelter.findByIdAndUpdate(id,{ ...req.body.shelter });
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    shelter.images.push(...imgs);
+    await shelter.save();
+    if(req.body.deleteImages){
+        for(let filename of req.body.deleteImages){
+            await cloudinary.uploader.destroy(filename);
+        }
+    await shelter.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}})
+    console.log(shelter)
+    }
     req.flash('success', 'Successfully updated shelter');
     res.redirect(`/shelters/${shelter._id}`);
 }
