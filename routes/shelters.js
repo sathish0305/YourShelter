@@ -6,18 +6,17 @@ const catchAsync = require('../utils/catchAsync');
 const Shelter = require('../models/shelter');
 const { isLoggedIn, validateShelter, isAuthor} = require('../middleware');
 
-router.get('/',catchAsync(shelters.index));
- 
- router.get('/new', isLoggedIn , shelters.renderNewForm);
- 
- router.post('/',isLoggedIn, validateShelter, catchAsync(shelters.createShelter));
- 
- router.get('/:id', catchAsync(shelters.showShelter));
- 
+router.route('/')
+    .get(catchAsync(shelters.index))
+    .post(isLoggedIn, validateShelter, catchAsync(shelters.createShelter));
+
+router.get('/new', isLoggedIn , shelters.renderNewForm);
+
+router.route('/:id')
+    .get(catchAsync(shelters.showShelter))
+    .put(isLoggedIn,isAuthor,validateShelter, catchAsync(shelters.updateShelter))
+    .delete(isLoggedIn,isAuthor,catchAsync(shelters.deleteShelter));
+
  router.get('/:id/edit',isLoggedIn, isAuthor, catchAsync(shelters.renderEdit));
- 
- router.put('/:id',isLoggedIn,isAuthor,validateShelter, catchAsync(shelters.updateShelter));
- 
- router.delete('/:id', isLoggedIn,isAuthor,catchAsync(shelters.deleteShelter));
- 
+
  module.exports = router;
