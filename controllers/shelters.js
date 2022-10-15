@@ -1,5 +1,9 @@
 const Shelter = require('../models/shelter');
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const { cloudinary } = require("../cloudinary");
+
 
 module.exports.index = async(req,res) =>{
     const shelters = await Shelter.find({});
@@ -11,7 +15,12 @@ module.exports.index = async(req,res) =>{
 }
 
 module.exports.createShelter = async (req, res, next) => {
+   const geoData = await geocoder.forwardGeocode({
+        query: req.body.shelter.location,
+        limit:1
+    }).send()
     const shelter = new Shelter(req.body.shelter);
+    shelter.geometry = geoData.body.features[0].geometry;
     shelter.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     shelter.author = req.user._id;
     await shelter.save();

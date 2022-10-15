@@ -1,7 +1,11 @@
 <% layout('layouts/boilerplate') %>
 <link rel="stylesheet" href="/stylesheets/stars.css">
 
+
+
 <div class="row">
+  <div class="col-6">
+<div id="map" style="width: 400px; height: 300px;"></div>
 
   <div id="Sheltercarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
@@ -24,7 +28,7 @@
     <% } %> 
   </div>
 
-    <div class="col-6">
+    
         <div class="card mb-3">
 
             <div class="card-body">
@@ -106,3 +110,10 @@
       <% } %> 
     </div>
 </div>
+
+<script>
+  const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+  const shelter = <%- JSON.stringify(shelter) %>
+</script>
+
+<script src="/javascripts/showPageMap.js"></script>

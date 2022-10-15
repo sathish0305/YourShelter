@@ -8,7 +8,11 @@
             <div class="card m-3">
                 <div class="row">
                 <div class="col-md-4">
+                    <% if(shelter.images.length) {%> 
                     <img src="<%= shelter.images[0].url %> " class="img-fluid" alt="...">
+                    <% } else { %>
+                        <img class="img-fluid" src="https://res.cloudinary.com/dbcrwpvfy/image/upload/v1665810306/YourShelter/nrivak8fdupe2wdrfs0d.jpg"
+                    <% } %>  
                 </div>
                 <div class="col-md-8">
                     <div class="body">
