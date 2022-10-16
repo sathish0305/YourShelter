@@ -11,6 +11,8 @@ ImageSchema.virtual('thumbnail').get(function() {
     return this.url.replace('/upload','/upload/w_200');
 });
 
+const opts = { toJSON: { virtuals: true } };
+
 const ShelterSchema = new Schema({
     title: String,
     images: [ImageSchema],
@@ -38,7 +40,14 @@ const ShelterSchema = new Schema({
             ref: "Review"
         }
     ]
+},opts);
+
+ShelterSchema.virtual('properties.popUpMarkup').get(function() {
+    return `
+    <strong><a href="/shelters/${this._id}">${this.title}</a><strong>
+    <p>${this.description.substring(0, 20)}...</p>`
 });
+
 
 ShelterSchema.post('findOneAndDelete', async function (doc) {
     if(doc){
