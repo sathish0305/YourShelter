@@ -24,7 +24,6 @@ module.exports.createShelter = async (req, res, next) => {
     shelter.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     shelter.author = req.user._id;
     await shelter.save();
-    console.log(shelter);
     req.flash('success', 'Successfully made a new shelter');
     res.redirect(`/shelters/${shelter._id}`);
     }
@@ -66,7 +65,6 @@ module.exports.renderEdit = async (req, res) => {
             await cloudinary.uploader.destroy(filename);
         }
     await shelter.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}})
-    console.log(shelter)
     }
     req.flash('success', 'Successfully updated shelter');
     res.redirect(`/shelters/${shelter._id}`);
