@@ -1,0 +1,90 @@
+<% layout('layouts/boilerplate') %>
+   <div class="row">
+    <h1 class="text-center">Add New Bike</h1>
+    <div class="col-md-6 offset-md-3">
+        <form action="/bikes" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="bike[title]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please Enter Bike name.
+                  </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Location</label>
+                <input class="form-control" type="text" id="location" name="bike[location]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please Enter Location.
+                  </div>
+            </div>
+            <div class="mb-3"></div>
+            <label class="form-label" for="price">Price</label>
+            <div class="input-group mb-3">
+               
+                <span class="input-group-text" id="basic-addon1">$</span>
+                <input type="text" id="price" class="form-control" name="bike[price]" placeholder="0.00" aria-label="price" aria-describedby="price-label"
+                required>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please Give a Bike Price.
+                  </div>
+              </div>
+
+              <div class="mb-3"></div>
+              <label class="form-label" for="mobile">Mobile</label>
+              <div class="input-group mb-3">
+                 
+                  <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-phone"></i></span>
+                  <input type="tel" id="mobile" class="form-control" name="bike[mobile]" placeholder="0.00" aria-label="mobile" aria-describedby="mobile-label"
+                  required>
+                  <div class="valid-feedback">
+                      Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                      Please Give Your Contact Number.
+                    </div>
+                </div>
+              
+          <!-- <div class="mb-3">
+                <label class="form-label" for="image">Image Url</label>
+                <input class="form-control" type="text" id="image" name="shelter[image]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please Add a Image.
+                  </div>
+            </div>
+            -->
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="bike[description]" required></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please Enter a Message in textarea.
+                  </div>
+            </div>
+
+            <div class="mb-3">
+              <input class="form-control" type="file" id="image"name="image" multiple>
+            </div>
+
+            <div class="mb-3"> 
+                <button class="btn btn-success">Add Bike</button>
+            </div>
+           
+        </form>
+    </div>
+   </div>
+
+  

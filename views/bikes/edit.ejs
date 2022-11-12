@@ -1,0 +1,101 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="row">
+        <h1 class="text-center">Edit Bike</h1>
+        <div class="col-md-6 offset-md-3">
+            <form action="/bikes/<%=bike._id%>?_method=PUT" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="form-label" for="title">Bike Name</label>
+                    <input class="form-control" type="text" id="title" name="bike[title]"
+                    value="<%=bike.title%>" required>
+                    <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please Enter a Bike Name.
+                  </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="location">Location</label>
+                    <input class="form-control" type="text" id="location" name="bike[location]" value="<%=bike.location%>" required>
+                    <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please Enter Location.
+                  </div>
+                </div>
+                <div class="mb-3"></div>
+                <label class="form-label" for="price">Price</label>
+                <div class="input-group mb-3">
+                   
+                    <span class="input-group-text" id="basic-addon1">$</span>
+                    <input type="text" id="price" class="form-control" name="bike[price]" placeholder="0.00" aria-label="price" aria-describedby="price-label"
+                    value="<%=bike.price%>" required>
+                    <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please Give a Price.
+                  </div>
+                  </div>
+
+                  <div class="mb-3"></div>
+                  <label class="form-label" for="mobile">Mobile</label>
+                  <div class="input-group mb-3">
+                     
+                      <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-phone"></i></span>
+                      <input type="tel" id="mobile" class="form-control" name="bike[mobile]" placeholder="0.00" aria-label="mobile" aria-describedby="mobile-label"
+                      value="<%=bike.mobile%>" required>
+                      <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                          Please Give Your Contact Number.
+                        </div>
+                    </div>
+                  
+              <!--  <div class="mb-3">
+                    <label class="form-label" for="image">Add images</label>
+                    <input type="file" name="image" id="image" multiple>
+                    <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please Add a Image.
+                  </div>
+                </div>
+                -->
+
+                <div class="mb-3">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea class="form-control" type="text" id="description" name="bike[description]" required><%=bike.description%></textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                      </div>
+                      <div class="invalid-feedback">
+                        Please Enter a Message in textarea.
+                      </div>
+                </div>
+                <div class="mb-3">
+                  <input class="form-control" type="file" id="image"name="image" multiple>
+                </div>
+
+                <div class="mb-3">
+                  <% bike.images.forEach(function(img,i){ %>
+                    <img src="<%=img.thumbnail%>" class="img-thumbnail" alt="">
+                    <div class="form-check-inline">
+                      <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
+                    </div>
+                    <label for="image-<%=i%>">Delete?</label>
+                  <% }) %> 
+                </div>
+
+                <div class="mb-3"> 
+                    <button class="btn btn-info">Update</button>
+                </div>
+               
+            </form>
+           
+        </div>
+       </div>

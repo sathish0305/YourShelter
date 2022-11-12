@@ -8,8 +8,30 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-link" href="/">Home</a>
-          <a class="nav-link" href="/shelters">Shelters</a>
-          <a class="nav-link" href="/shelters/new">New Shelters</a>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Shelters
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/shelters">Shelters</a></li>
+             
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item"  href="/shelters/new">New Shelters</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Bikes
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/bikes">Rent Bikes</a></li>
+             
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item"  href="/bikes/new">New Bike</a></li>
+            </ul>
+          </li>  
       </div>
         <div class="navbar-nav ml-auto">
           <% if(!currentUser) {%>

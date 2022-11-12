@@ -41,3 +41,23 @@ module.exports.reviewSchema = Joi.object({
         body: Joi.string().required().escapeHTML()
     }).required()
 });
+
+
+module.exports.bikeSchema = Joi.object({
+    bike: Joi.object({
+        title: Joi.string().required().escapeHTML(),
+        price: Joi.number().required().min(0),
+        mobile: Joi.number().required().min(0),
+        // image: Joi.string().required(),
+        location: Joi.string().required().escapeHTML(),
+        description: Joi.string().required().escapeHTML()
+    }).required(),
+    deleteImages: Joi.array()
+});
+
+module.exports.bikereviewSchema = Joi.object({
+    bikereview: Joi.object({
+        rating: Joi.number().required().min(1).max(5),
+        body: Joi.string().required().escapeHTML()
+    }).required()
+});

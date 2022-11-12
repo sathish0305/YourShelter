@@ -19,6 +19,8 @@ const User = require('./models/user');
 const userRoutes = require('./routes/users');
 const shelterRoutes = require('./routes/shelters');
 const reviewRoutes = require('./routes/reviews');
+const bikeRoutes = require('./routes/bikes');
+const bikereviewRoutes = require('./routes/bikereviews');
 
 mongoose.connect('mongodb://localhost:27017/shelter-camp', {
     useNewUrlParser: true,
@@ -74,6 +76,8 @@ app.use((req, res, next) => {
 app.use('/', userRoutes);
 app.use('/shelters', shelterRoutes);
 app.use('/shelters/:id/reviews', reviewRoutes);
+app.use('/bikes', bikeRoutes);
+app.use('/bikes/:id/reviews', bikereviewRoutes);
 
 app.get('/', (req, res) => {
     res.render('home')

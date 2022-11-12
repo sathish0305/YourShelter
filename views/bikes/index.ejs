@@ -1,0 +1,36 @@
+<% layout('layouts/boilerplate') %> 
+<div>
+<h3 class="d-flex justify-content-center">Looking for an easy and affordable way to get around town?</h3>
+<h4 class="d-flex justify-content-center">Check out our selection of bikes for rent!</h4> 
+<p class="d-flex justify-content-center">Whether you're looking for a leisurely ride or a way to get some exercise, we have the perfect bike for you.</p>
+</div>
+ <ul>
+     <% for (let bike of bikes) {%>
+         <div class="card mb-3">
+             <div class="row">
+             <div class="col-md-4">
+                 <% if(bike.images.length) {%> 
+                 <img src="<%= bike.images[0].url %> " class="img-fluid" alt="...">
+                 <% } else { %>
+                     <img class="img-fluid" src="https://res.cloudinary.com/dbcrwpvfy/image/upload/v1665810306/YourShelter/nrivak8fdupe2wdrfs0d.jpg"
+                 <% } %>  
+             </div>
+             <div class="col-md-8">
+                 <div class="body">
+                     <h3 class="card-title"><%= bike.title %> </h3>
+                     <p class="card-text"><%= bike.description %> </p>
+                     <p class="card-text"><small class="text-muted"><%= bike.location %> </small></p>
+                     <a class="btn btn-primary" href="/bikes/<%= bike._id %>">View <%= bike.title %> </a>
+                 </div>
+             </div>
+         </div>
+     </div>
+         <% } %>  
+ </ul>
+
+ <script>
+     const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+     const bikes = {features: <%- JSON.stringify(bikes) %>}
+   </script>
+ <script src="/javascripts/clusterMap.js"></script>
+
