@@ -3,6 +3,7 @@
     Looking for a place to camp in nature? Check out our list of the best campgrounds in the area!</h4>
 
    <div id="cluster-map"></div>
+
 <div class="m-3">
     <ul>
         <% for (let shelter of shelters) {%>
@@ -28,6 +29,7 @@
             <% } %>  
     </ul>
 </div>
+
 
     <script>
         const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
