@@ -2,110 +2,116 @@
 <link rel="stylesheet" href="/stylesheets/stars.css">
 
 
-<div class="row">
-  <div class="col-6">
-  <div id="Sheltercarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <% bike.images.forEach((img, i) => {  %>
-      <div class="carousel-item <%= i=== 0 ? 'active' : ''%>">
-        <img src=" <%= img.url %>" class="d-block w-100" alt="...">
-      </div>
-      <% }) %> 
-    </div>
+<div class="container">
 
-    <% if(bike.images.length > 1) {%> 
-    <button class="carousel-control-prev" type="button" data-bs-target="#Sheltercarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#Sheltercarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-    <% } %> 
-  </div>
-
-    
-        <div class="card mb-3">
-
-            <div class="card-body">
-              <h5 class="card-title"><%= bike.title  %> </h5>
-              <p class="card-text"> <%= bike.description %></p>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item text-muted"><%= bike.location  %></li>
-              <li class="list-group-item">Owner: <%= bike.author.username  %></li>
-              <li class="list-group-item">Mobile: <%= bike.mobile  %></li>
-              <li class="list-group-item">$<%= bike.price  %>/hour</li>
-            </ul>
-
-            <% if(currentUser && bike.author.equals(currentUser._id)) { %> 
-            <div class="card-body">
-              <a class="card-link btn btn-info" href="/bikes/<%=bike._id%>/edit">Edit</a>
-              <form class="d-inline" action="/bikes/<%=bike._id %>?_method=DELETE" method="POST">
-                <button class="btn btn-danger">Delete</button>
-            </form>
-            </div>
-            <% } %> 
-            <% if(!currentUser) { %> 
-            <a href="https://wa.me/<%= bike.mobile %>?text=Hi,%20I'm%20looking%20for%20a%20rental%20bike%20<%= bike.title  %>" class="btn btn-light btn-outline-success mt-3"><i class="fa-brands fa-whatsapp"></i> Contact us</a>
-            <% } %> 
-          </div>
-    </div>
-
-    <div class="col-6">
-
-        <% if(currentUser) {%> 
-        <h2>Leave a Review</h2>
-        <form action="/bikes/<%=bike._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
-        <div class="mb-3">
-          <fieldset class="starability-checkmark">
-            <input type="radio" id="no-rate" class="input-no-rate" name="bikereview[rating]" value="0" checked aria-label="No rating." />
-            <input type="radio" id="first-rate1" name="bikereview[rating]" value="1" />
-            <label for="first-rate1" title="Terrible">1 star</label>
-            <input type="radio" id="first-rate2" name="bikereview[rating]" value="2" />
-            <label for="first-rate2" title="Not good">2 stars</label>
-            <input type="radio" id="first-rate3" name="bikereview[rating]" value="3" />
-            <label for="first-rate3" title="Average">3 stars</label>
-            <input type="radio" id="first-rate4" name="bikereview[rating]" value="4" />
-            <label for="first-rate4" title="Very good">4 stars</label>
-            <input type="radio" id="first-rate5" name="bikereview[rating]" value="5" />
-            <label for="first-rate5" title="Amazing">5 stars</label>
-          </fieldset>
+  <div class="row">
+    <div class="col-sm-6">
+    <div id="Sheltercarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <% bike.images.forEach((img, i) => {  %>
+        <div class="carousel-item <%= i=== 0 ? 'active' : ''%>">
+          <img src=" <%= img.url %>" class="d-block w-100" alt="...">
         </div>
-         
-          <div class="mb-3">
-            <label class="form-label" for="body">Review</label>
-            <textarea class="form-control" name="bikereview[body]" id="body" cols="30" rows="3" required></textarea>
-            <div class="valid-feedback">
-              Looks good!
-            </div>
-            <div class="invalid-feedback">
-              Please leave a Review.
-            </div>
-           
-          </div>
-          <button class="btn btn-success">Submit</button>
-        </form>
-        <% } %> 
-        <% for(let bikereview of bike.reviews) { %>
-          <div class="card mb-3">
-            <div class="card-body">
-              <h6 class="card-subtitle mb-2 text-muted">By <%= bikereview.author.username %>  </h6>
-  
-              <p class="starability-result" data-rating="<%=bikereview.rating%>">
-                Rated: <%= bikereview.rating %> stars
-            </p>
-  
-              <p class="card-text">Review: <%= bikereview.body %> </p>
-              <% if(currentUser && bikereview.author.equals(currentUser._id)) { %> 
-              <form action="/bikes/<%=bike._id%>/reviews/<%=bikereview._id%>?_method=DELETE" method="POST">
-              <button class="btn btn-sm btn-danger">Delete</button>
-            </form>
-            <% } %> 
-            </div>
-          </div>
-        <% } %> 
+        <% }) %> 
       </div>
-  </div>
+  
+      <% if(bike.images.length > 1) {%> 
+      <button class="carousel-control-prev" type="button" data-bs-target="#Sheltercarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#Sheltercarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+      <% } %> 
+    </div>
+  
+      
+          <div class="card mb-3">
+  
+              <div class="card-body">
+                <h5 class="card-title"><%= bike.title  %> </h5>
+                <p class="card-text"> <%= bike.description %></p>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-muted"><%= bike.location  %></li>
+                <li class="list-group-item">Owner: <%= bike.author.username  %></li>
+                <li class="list-group-item">Mobile: <%= bike.mobile  %></li>
+                <li class="list-group-item">$<%= bike.price  %>/hour</li>
+              </ul>
+  
+              <% if(currentUser && bike.author.equals(currentUser._id)) { %> 
+              <div class="card-body">
+                <a class="card-link btn btn-info" href="/bikes/<%=bike._id%>/edit">Edit</a>
+                <form class="d-inline" action="/bikes/<%=bike._id %>?_method=DELETE" method="POST">
+                  <button class="btn btn-danger">Delete</button>
+              </form>
+              </div>
+              <% } %> 
+              <% if(!currentUser) { %> 
+              <a href="https://wa.me/<%= bike.mobile %>?text=Hi,%20I'm%20looking%20for%20a%20rental%20bike%20<%= bike.title  %>" class="btn btn-light btn-outline-success mt-3"><i class="fa-brands fa-whatsapp"></i> Contact us</a>
+              <% } %> 
+            </div>
+      </div>
+  
+      <div class="col-sm-6">
+  
+          <% if(currentUser) {%> 
+          <h2>Leave a Review</h2>
+          <form action="/bikes/<%=bike._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
+          <div class="mb-3">
+            <fieldset class="starability-checkmark">
+              <input type="radio" id="no-rate" class="input-no-rate" name="bikereview[rating]" value="0" checked aria-label="No rating." />
+              <input type="radio" id="first-rate1" name="bikereview[rating]" value="1" />
+              <label for="first-rate1" title="Terrible">1 star</label>
+              <input type="radio" id="first-rate2" name="bikereview[rating]" value="2" />
+              <label for="first-rate2" title="Not good">2 stars</label>
+              <input type="radio" id="first-rate3" name="bikereview[rating]" value="3" />
+              <label for="first-rate3" title="Average">3 stars</label>
+              <input type="radio" id="first-rate4" name="bikereview[rating]" value="4" />
+              <label for="first-rate4" title="Very good">4 stars</label>
+              <input type="radio" id="first-rate5" name="bikereview[rating]" value="5" />
+              <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>
+          </div>
+           
+            <div class="mb-3">
+              <label class="form-label" for="body">Review</label>
+              <textarea class="form-control" name="bikereview[body]" id="body" cols="30" rows="3" required></textarea>
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+              <div class="invalid-feedback">
+                Please leave a Review.
+              </div>
+             
+            </div>
+            <button class="btn btn-success">Submit</button>
+          </form>
+          <% } %> 
+          <% for(let bikereview of bike.reviews) { %>
+            <div class="card mb-3">
+              <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">By <%= bikereview.author.username %>  </h6>
+    
+                <p class="starability-result" data-rating="<%=bikereview.rating%>">
+                  Rated: <%= bikereview.rating %> stars
+              </p>
+    
+                <p class="card-text">Review: <%= bikereview.body %> </p>
+                <% if(currentUser && bikereview.author.equals(currentUser._id)) { %> 
+                <form action="/bikes/<%=bike._id%>/reviews/<%=bikereview._id%>?_method=DELETE" method="POST">
+                <button class="btn btn-sm btn-danger">Delete</button>
+              </form>
+              <% } %> 
+              </div>
+            </div>
+          <% } %> 
+        </div>
+    </div>
+  
+
+</div>
+
 
