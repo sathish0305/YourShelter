@@ -1,9 +1,11 @@
-const { shelterSchema, reviewSchema, bikeSchema, bikereviewSchema } = require('./schemas')
+const { shelterSchema, reviewSchema, bikeSchema, bikereviewSchema, itemSchema, itemreviewSchema } = require('./schemas')
 const ExpressError = require('./utils/ExpressError');
 const Shelter = require('./models/shelter');
 const Review = require('./models/review');
 const Bike = require('./models/bike');
 const BikeReview = require('./models/bikereview');
+const Item = require('./models/item');
+const ItemReview = require('./models/itemreview');
 
 
 module.exports.isLoggedIn = (req, res, next) => {
