@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NatureFinder</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
+    <script src="https://kit.fontawesome.com/c9503467c4.js" crossorigin="anonymous"></script>  
     <link rel="stylesheet" href="/stylesheets/home.css">
+    <link rel="stylesheet" href="/stylesheets/slider.css">
+
 </head>
 <body>
 
@@ -73,6 +75,90 @@
                         </div>
                    
                 </div>
+
+
+              
+                
+                <!-- campgrounds loop -->
+                <div class="container mb-5">
+                  <div class="title-section mb-3">
+                    <h1 class="title">Find for a Naturistic Campground</h1>
+                    <a href="/shelters" class="link-view-all">View All</a>
+                  </div>
+                  <div class="grid grid-items categories">
+                    
+                    <div class="row">
+                      <% for(let shelter of shelters) { %>
+                        
+                      <div class="col-md-3 col-sm-6 col-xs-6 grid-col">
+                        
+                        <div class="item-wrp">
+                          
+                          <div class="item">
+                            <div class="item-img-wrp">
+                              <% if(shelter.images.length) {%> 
+                                <img src="<%= shelter.images[0].url %>" style="height:360px; width: 640px;" class="img-fluid" alt="...">
+                                <% } else { %>
+                                    <img class="img-fluid" src="https://res.cloudinary.com/dbcrwpvfy/image/upload/v1665810306/YourShelter/nrivak8fdupe2wdrfs0d.jpg">
+                                <% } %>  
+                            </div>
+                            <div class="item-desc-wrp">
+                              
+                              <div class="title"><a href="/shelters/<%= shelter._id %>"><%= shelter.title %></a></div>
+                            </div>
+                          </div>
+                          
+                        </div>
+                       
+                      </div>
+                      <% } %>   
+                     
+                    </div>
+                    
+                 </div>
+              </div>
+                <!-- -->
+                
+                  <!--Products loop-->
+                  <div class="container">
+                    <div class="title-section">
+                      <h1 class="title">Rent a Bike to Explore</h1>
+                      <a href="/bikes" class="link-view-all">VIEW ALL</a>
+                    </div>
+                    <div class="grid grid-items products">
+                      <div class="row">
+                        <% for(let bike of bikes) { %>
+                        <div class="col-md-3 col-sm-4 col-xs-6 grid-col">
+                          <div class="item-wrp">
+                            <div class="item">
+                              <div class="item-img-wrp">
+                                <% if(bike.images.length) {%> 
+                                  <img src="<%= bike.images[0].url %> " class="img-fluid" alt="...">
+                                  <% } else { %>
+                                      <img class="img-fluid" src="https://res.cloudinary.com/dbcrwpvfy/image/upload/v1665810306/YourShelter/nrivak8fdupe2wdrfs0d.jpg">
+                                  <% } %> 
+                              </div>
+                              <div class="item-desc-wrp">
+                              <!-- <div class="category"><a href="#">Dresses</a></div>--> 
+                                <div class="title"><%= bike.title  %> </div>
+                                <div class="brand">Location: <%= bike.location  %> </div>
+                                <div class="item-price-wrp">
+                                  <div class="price"><i class="fa fa-inr"></i><%= bike.price %>/day </div>
+                                </div>
+                              </div>
+                              <div class="item-media-wrp">
+                                <a href="https://wa.me/<%= bike.mobile %>?text=Hi,%20I'm%20looking%20for%20a%20rental%20bike%20<%= bike.title  %>" class="btn btn-light btn-outline-success mt-3"><i class="fa-brands fa-whatsapp"></i> Contact us</a>
+                              </div>
+                              
+                            </div>
+                          </div>
+                        </div>
+                        <% } %>  
+                      </div>
+                    </div>
+                  </div>
+          
+
 
                 <footer class="mt-auto bg-dark text-white-50">
                     <p>&copy; 2022 NatureFinder Designed by sathish</p>

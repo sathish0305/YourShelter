@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
 
+
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -19,6 +20,9 @@ const shelterRoutes = require('./routes/shelters');
 const reviewRoutes = require('./routes/reviews');
 const bikeRoutes = require('./routes/bikes');
 const bikereviewRoutes = require('./routes/bikereviews');
+
+const Shelter = require('./models/shelter');
+const Bike = require('./models/bike');
 
 mongoose.connect('mongodb://localhost:27017/shelter-camp', {
     useNewUrlParser: true,
@@ -71,15 +75,19 @@ app.use((req, res, next) => {
     next();
 })
 
+
 app.use('/', userRoutes);
 app.use('/shelters', shelterRoutes);
 app.use('/shelters/:id/reviews', reviewRoutes);
 app.use('/bikes', bikeRoutes);
 app.use('/bikes/:id/reviews', bikereviewRoutes);
 
-app.get('/', (req, res) => {
-    res.render('home')
-})
+app.get('/', async (req, res) => {
+    const shelters = await Shelter.find({}).limit(4);
+    const bikes = await Bike.find({}).limit(4);
+    res.render('home', { shelters, bikes });
+});
+
 
 
 app.all('*', (req, res, next) => {
